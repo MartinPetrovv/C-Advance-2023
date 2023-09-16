@@ -1,0 +1,43 @@
+namespace _4._Fast_Food
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int quantityOfFood = int.Parse(Console.ReadLine()); //348
+
+            int[] quantityOfOrder = Console.ReadLine() //20 54 30 16 7 9
+                .Split()
+                .Select(int.Parse)
+                .ToArray();
+            Queue<int> queue = new Queue<int>(quantityOfOrder);
+
+            Console.WriteLine(queue.Max());
+            
+            while (queue.Any() && quantityOfFood > 0)
+            {
+               
+                int currentOrder = queue.Peek();
+
+                if (quantityOfFood - currentOrder >= 0)
+                {
+                    quantityOfFood -= queue.Dequeue();
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            if (queue.Count ==0)
+            {
+                Console.WriteLine("Orders complete");
+            }
+            else
+            {
+                Console.WriteLine($"Orders left: {string.Join(" ", queue)}");
+            }
+        }
+    }
+}
