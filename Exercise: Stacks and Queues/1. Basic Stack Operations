@@ -1,0 +1,51 @@
+namespace _2._Basic_Queue_Operations
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //5 2 13
+            //1 13 45 32 4
+
+            int[] values = Console.ReadLine()
+                .Split()
+                .Select(int.Parse)
+                .ToArray();
+            int[] input = Console.ReadLine()
+                .Split()
+                .Select(int.Parse)
+                .ToArray();
+            int valuesToPush = values[0];
+            int valuesToPop = values[1];
+            int valuesToCheck = values[2];
+
+            Stack<int> stack = new Stack<int>();
+
+            for (int i = 0; i < valuesToPush; i++)
+            {
+                stack.Push(input[i]);
+            }
+
+            while (stack.Count > 0 && valuesToPop>0)
+            {
+               stack.Pop();
+               valuesToPop--;
+            }
+
+            if (stack.Contains(valuesToCheck))
+            {
+                Console.WriteLine("true");
+            }
+            else if (stack.Count == 0)
+            {
+                Console.WriteLine(0);
+            }
+            else
+            {
+                Console.WriteLine(stack.Min());
+            }
+
+
+        }
+    }
+}
