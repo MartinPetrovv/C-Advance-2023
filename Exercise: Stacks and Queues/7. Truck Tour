@@ -1,0 +1,56 @@
+namespace _7._Truck_Tour
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+
+            Queue <int[] > queue = new Queue<int[]>();
+
+            for (int i = 0; i < n; i++)
+            {
+
+                int[] input = Console.ReadLine()
+                    .Split()
+                    .Select(int.Parse)
+                    .ToArray();
+                int liters = input[0];
+                int distance = input[1];
+                queue.Enqueue((input));
+            }
+
+            int bestRoute = 0;
+
+            while (true)
+            {
+                int totalPetrol = 0;
+                foreach (int[] pump in queue)
+                {
+                    totalPetrol += pump[0];
+                    int cureentDistance = pump[1];
+
+                    if (totalPetrol-cureentDistance <0)
+                    {
+                        totalPetrol = 0;
+                        break;
+                    }
+                    else
+                    {
+                        totalPetrol-= cureentDistance;
+                    }
+                }
+
+                if (totalPetrol>0)
+                {
+                    break;
+                }
+
+                bestRoute++;
+                queue.Enqueue(queue.Dequeue());
+            }
+
+            Console.WriteLine(bestRoute);
+        }
+    }
+}
