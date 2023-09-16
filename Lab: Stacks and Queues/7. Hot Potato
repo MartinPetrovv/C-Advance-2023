@@ -1,0 +1,33 @@
+namespace _7._Hot_Potato
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+          
+            Queue<string> queue = new Queue<string>(Console.ReadLine().Split());
+             
+            int n = int.Parse(Console.ReadLine());
+
+            int tossCount = 0;
+
+            while (queue.Count > 1)
+            {
+                tossCount++;
+                string currentchild = queue.Dequeue();
+
+                if (tossCount == n)
+                {
+                    tossCount = 0;
+                    Console.WriteLine($"Removed {currentchild}");
+                }
+                else
+                {
+                    queue.Enqueue(currentchild);
+                }
+
+            }
+            Console.WriteLine($"Last is {queue.Dequeue()}");
+        }
+    }
+}
