@@ -1,0 +1,66 @@
+using System;
+using System.Linq;
+using System.Text;
+
+namespace _3x3MatrixSum
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] size = Console.ReadLine()
+                .Split()
+                .Select(int.Parse)
+                .ToArray();
+            var matrix = new int[size[0], size[1]];
+
+            for (int row = 0; row < size[0]; row++)
+            {
+                var colEl = Console.ReadLine()
+                    .Split(" ", StringSplitOptions.RemoveEmptyEntries)  //тук се чупи, затова го добавих
+                    .Select(int.Parse)
+                    .ToArray();
+                for (int col = 0; col < size[1]; col++)
+                {
+                    matrix[row, col] = colEl[col];
+                }
+            }
+            //int[,] newMatrix = new int[3, 3]; не е нужно
+            var startRow = 0;
+            var startCol = 0;
+            var largest = 0;
+            for (var row = 0; row < matrix.GetLength(0) - 2; row++)
+            {
+                for (var col = 0; col < matrix.GetLength(1) - 2; col++)
+                {
+                    var sum = 0;
+                    for (var x = row; x < row + 3; x++)
+                    {
+                        for (var y = col; y < col + 3; y++)
+                        {
+                            sum += matrix[x, y];
+                        }
+                    }
+                    if (sum > largest)
+                    {
+                        largest = sum;
+                        startRow = row; //начало на квадрата
+                        startCol = col; //начало на квадрата
+                    }
+                }
+            }
+
+            var sb = new StringBuilder(); //за да се намали броя писане в конзолата
+            sb.AppendLine($"Sum = {largest}");
+            for (int i = startRow; i < startRow + 3; i++)
+            {
+                for (int y = startCol; y < startCol + 3; y++)
+                {
+                    sb.Append(matrix[i, y] + " ");
+                }
+                sb.AppendLine();
+            }
+            Console.WriteLine(sb.ToString().Trim());
+        }
+    }
+}
