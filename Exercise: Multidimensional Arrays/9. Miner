@@ -1,0 +1,91 @@
+using System;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        int fieldSize = int.Parse(Console.ReadLine());
+        string[] commands = Console.ReadLine().Split();
+
+        char[,] field = new char[fieldSize, fieldSize];
+        int minerRow = -1;
+        int minerCol = -1;
+        int totalCoals = 0;
+
+        // Fill the field and find the miner's starting position
+        for (int row = 0; row < fieldSize; row++)
+        {
+            char[] rowElements = Console.ReadLine().Split().Select(char.Parse).ToArray();
+            for (int col = 0; col < fieldSize; col++)
+            {
+                field[row, col] = rowElements[col];
+                if (field[row, col] == 's')
+                {
+                    minerRow = row;
+                    minerCol = col;
+                }
+                else if (field[row, col] == 'c')
+                {
+                    totalCoals++;
+                }
+            }
+        }
+
+        foreach (string command in commands)
+        {
+            int newRow = minerRow;
+            int newCol = minerCol;
+
+            // Update the new position based on the command
+            switch (command)
+            {
+                case "left":
+                    newCol--;
+                    break;
+                case "right":
+                    newCol++;
+                    break;
+                case "up":
+                    newRow--;
+                    break;
+                case "down":
+                    newRow++;
+                    break;
+            }
+
+            // Check if the new position is valid
+            if (IsInsideField(newRow, newCol, fieldSize))
+            {
+                char newPosition = field[newRow, newCol];
+
+                if (newPosition == 'e')
+                {
+                    Console.WriteLine($"Game over! ({newRow}, {newCol})");
+                    return;
+                }
+                else if (newPosition == 'c')
+                {
+                    totalCoals--;
+                    field[newRow, newCol] = '*';
+                    if (totalCoals == 0)
+                    {
+                        Console.WriteLine($"You collected all coals! ({newRow}, {newCol})");
+                        return;
+                    }
+                }
+
+                // Update the miner's position
+                minerRow = newRow;
+                minerCol = newCol;
+            }
+        }
+
+        Console.WriteLine($"{totalCoals} coals left. ({minerRow}, {minerCol})");
+    }
+
+    static bool IsInsideField(int row, int col, int fieldSize)
+    {
+        return row >= 0 && row < fieldSize && col >= 0 && col < fieldSize;
+    }
+}
