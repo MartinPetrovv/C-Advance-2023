@@ -1,0 +1,53 @@
+using System.Linq.Expressions;
+
+int size = int.Parse(Console.ReadLine());
+int[,] matrix = new int[size, size];
+
+for (int row = 0; row < size; row++)
+{
+    string elements = Console.ReadLine();
+    for (int col = 0; col < size; col++)
+    {
+        char currentSymbol = elements[col];
+        matrix[row, col] = currentSymbol;
+    }
+}
+bool isFound = false;
+char character = char.Parse(Console.ReadLine());
+int corruptedSymbol = character;
+
+for (int row = 0; row < size; row++)
+{
+    for (int col = 0; col < size; col++)
+    {
+        if (matrix[row, col] == character) 
+        {
+            Console.WriteLine($"({row}, {col})");
+            isFound = true;
+            return;
+        }
+
+        
+    } 
+   
+}
+
+if (!isFound)
+{
+    Console.WriteLine($"{character} does not occur in the matrix");
+}
+
+/*
+3
+ABC
+DEF
+X!@
+!
+
+4 
+asdd 
+xczc 
+qwee 
+qefw 
+4
+*/
