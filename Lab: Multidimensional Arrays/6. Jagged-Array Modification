@@ -1,0 +1,68 @@
+
+using System.ComponentModel;
+using System.Numerics;
+
+int rows = int.Parse(Console.ReadLine());
+
+int[][] matrix = new int[rows][];
+
+for (int row = 0; row < rows; row++)
+{
+    matrix[row] = Console.ReadLine()
+        .Split()
+        .Select(int.Parse)
+        .ToArray();
+
+}
+
+string command = Console.ReadLine().ToLower();
+
+while (command != "end")
+{
+    string[] input = command.Split();
+
+    int row = int.Parse(input[1]);
+    int col = int.Parse(input[2]);
+    int value = int.Parse(input[3]);
+
+    if (row < 0 || col < 0 || row >= matrix.Length || matrix.Length <= col)
+    {
+        Console.WriteLine("Invalid coordinates");
+    }
+    else
+    {
+        if (input[0] == "add")
+        {
+            matrix[row][col] += value;
+        }
+        else
+        {
+            matrix[row][col] -= value;
+        }
+    }
+    
+    command = Console.ReadLine().ToLower();
+}
+
+for (int row = 0; row < matrix.Length; row++)
+{
+    for (int col = 0; col < matrix[row].Length; col++)
+    {
+        Console.Write($"{matrix[row][col]} ");
+    }
+
+    Console.WriteLine();
+}
+
+/*
+4
+1 2 3 4
+5
+8 7 6 5
+4 3 2 1
+Add 4 4 100
+Add 3 3 100
+Subtract -1 -1 42
+Subtract 0 0 42
+END
+*/
