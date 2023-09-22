@@ -1,0 +1,54 @@
+using System.Drawing;
+
+namespace _2._Squares_in_Matrix
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] dimensions = Console.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+            int rows = dimensions[0];
+            int cols = dimensions[1];
+
+            char[,] matrix = new char[rows, cols];
+
+            for (int row = 0; row <= rows - 1; row++)
+            {
+                char[] symbols = Console.ReadLine()
+                    .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                    .Select(char.Parse)
+                    .ToArray();
+
+                for (int col = 0; col <= cols - 1; col++)
+                {
+                    matrix[row, col] = symbols[col];
+                }
+
+            }
+
+            int count =0;
+
+            for (int row = 0; row < rows - 1; row++)
+            {
+                for (int col = 0; col < cols - 1; col++)
+                {
+                    int element = matrix[row, col];
+                    bool isEqualRight = element == matrix[row, col +1]; //element in right
+                    bool isEqualDown = element == matrix[row +1, col]; // element down of the current
+                    bool isEqualDownRight = element == matrix[row +1, col +1]; //element down right
+
+                    if (isEqualRight && isEqualDown && isEqualDownRight)
+                    {
+                        count++;
+                    }
+                }
+            }
+
+            Console.WriteLine(count);
+
+        }
+    }
+}
