@@ -1,0 +1,104 @@
+using System.Data;
+
+namespace _4._Matrix_Shuffling
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] dimensions = Console.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+
+            int rows = dimensions[0];
+            int cols = dimensions[1];
+
+            string[,] matrix = new string[rows, cols];
+
+            for (int row = 0; row < rows; row++)
+            {
+                string[] input = Console.ReadLine()
+                    .Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                for (int col = 0; col < cols; col++)
+                {
+                    matrix[row, col] = input[col];
+                    
+                }
+            }
+            string command = Console.ReadLine();
+
+            while (command != "END")
+            {
+                if (IsValidCommand(command, rows, cols))
+                {
+                    string[] spliitedCommand = command.Split(" ");
+                    string element1 = matrix[int.Parse(spliitedCommand[1]), int.Parse(spliitedCommand[2])];
+                    string element2 = matrix[int.Parse(spliitedCommand[3]), int.Parse(spliitedCommand[4])];
+
+                    matrix[int.Parse(spliitedCommand[1]), int.Parse(spliitedCommand[2])] = element2;
+                    matrix[int.Parse(spliitedCommand[3]), int.Parse(spliitedCommand[4])] = element1;
+                    
+                    PrintMatrix(matrix);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input!");
+                    
+                }
+                command = Console.ReadLine();
+            }
+            
+        }
+
+        private static void PrintMatrix(string[,] matrix)
+        {
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                for (int col = 0; col < matrix.GetLength(1); col++)
+                {
+                    Console.Write(matrix[row, col] + " ");
+                }
+
+                Console.WriteLine();
+            }
+        }
+
+        static bool IsValidCommand(String command, int rows, int cols)
+        {
+            string[] commandParts = command.Split(" ");
+            
+            bool isValidName = commandParts[0] == "swap";
+            bool isValidRowsAndCols = false;
+            
+            bool isValidCountParts = commandParts.Length == 5;
+            if (isValidName && isValidCountParts)
+            {
+                int row1 = int.Parse(commandParts[1]);
+                int cols1 = int.Parse(commandParts[2]);
+                int row2 = int.Parse(commandParts[3]);
+                int cols2 = int.Parse(commandParts[4]);
+
+                isValidRowsAndCols = row1 >= 0 && row1 < rows
+                                               && cols1 >= 0 && cols1 < cols
+                                               && row2 >= 0 && row2 < rows
+                                               && cols2 >= 0 && cols2 < cols;
+            }
+            
+            return isValidName && isValidCountParts && isValidRowsAndCols;
+            
+        }
+
+    }
+
+  
+}
+/*
+1 2
+Hello World
+0 0 0 1
+swap 0 0 0 1
+swap 0 1 0 0
+END
+*/
+
