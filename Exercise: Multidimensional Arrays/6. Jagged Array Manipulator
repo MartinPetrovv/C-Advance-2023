@@ -1,0 +1,105 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Numerics;
+
+int rows = int.Parse(Console.ReadLine());
+
+double[][] jaggedMatrix = new double[rows][];
+
+for (int row = 0; row < rows; row++)
+{
+    jaggedMatrix[row] = Console.ReadLine()
+        .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+        .Select(double.Parse)
+        .ToArray();
+}
+
+
+for (int row = 0; row < rows-1; row++)
+{
+    if (jaggedMatrix[row].Length == jaggedMatrix[row + 1].Length)
+    {
+        for (int col = 0; col < jaggedMatrix[row].Length; col++)
+        {
+            jaggedMatrix[row][col] *= 2;
+            jaggedMatrix[row+1][col] *= 2;
+        }
+    }
+    else
+    {
+        for (int col = 0; col < jaggedMatrix[row].Length; col++)
+        {
+            jaggedMatrix[row][col] /= 2;
+        }
+
+        for (int col = 0; col < jaggedMatrix[row+1].Length; col++)
+        {
+            jaggedMatrix[row + 1][col] /= 2;
+        }
+    }
+    
+}
+
+while (true)
+{
+    string command = Console.ReadLine();
+    if (command == "End")
+    {
+        break;
+    }
+
+    string[] commandInfo = command.Split(" ");
+    int rowGiven = int.Parse(commandInfo[1]);
+    int colGiven = int.Parse(commandInfo[2]);
+    double value = double.Parse(commandInfo[3]);
+
+    if (commandInfo[0] == "Add")
+    {
+        if (IsItValid(jaggedMatrix, rowGiven, colGiven, rows))
+        {
+            jaggedMatrix[rowGiven][colGiven] += value;
+        }
+    }
+    else if (commandInfo[0] == "Subtract")
+    {
+        if (IsItValid(jaggedMatrix, rowGiven, colGiven, rows))
+        {
+            jaggedMatrix[rowGiven][colGiven] -= value;
+        }
+    }
+    
+}
+
+foreach (var row in jaggedMatrix)
+{
+    Console.Write(string.Join(" ", row));
+    Console.WriteLine();
+}
+
+static bool IsItValid(double[][] jaggedMatrix, int rowGiven, int colGiven, int rows)
+{
+    return rowGiven >= 0
+           && rowGiven < rows
+           && colGiven >= 0
+           && colGiven < jaggedMatrix[rowGiven].Length;
+}
+
+/*
+5
+10 20 30
+1 2 3
+2
+2
+10 10
+End
+
+5
+10 20 30
+1 2 3
+2
+2
+10 10
+Add 0 10 10
+End
+ */
