@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace LinkedList
 {
     public  class SoftUniLinkedList
     {
-       
-        public Node Head { get; set; }
+         public Node Head { get; set; }
         public Node Tail { get; set; }
-
         public void AddLast(int nodeValue)
         {
             Node newNode = new Node (nodeValue);
@@ -24,12 +21,10 @@ namespace LinkedList
             newNode.Previous = Tail;
             Tail.Next = newNode;
             Tail = newNode;
-            
         }
 
         public void AddFirst(int nodeValue)
         {
-
             Node newNode = new Node (nodeValue);
 
             if (Head == null)
@@ -38,24 +33,18 @@ namespace LinkedList
                 Tail = newNode;
                 return;
             }
-
             newNode.Next = Head;
             Head.Previous = newNode;
             Head = newNode;
-            
         }
-
         public Node RemoveLast()
         {
             Node nodeToRemove = Tail;
             Tail = Tail.Previous;
             Tail.Next = null;
             nodeToRemove.Previous = null;
-
             return nodeToRemove;
-
         }
-
         public Node RemoveFirst()
         {
             Node nodeToRemove= Head;
@@ -65,11 +54,19 @@ namespace LinkedList
             nodeToRemove.Next = null;
 
             return nodeToRemove;
-
         }
+        public void ForEach(Action<int> callBack)
+        {
+            Node currentNode = Head;
 
+            while (currentNode != null)
+            {
+                callBack(currentNode.Value);
+            }
+        }
     }
 }
+
 
 
 //SoftUniLinkedList linkedList = new SoftUniLinkedList();
