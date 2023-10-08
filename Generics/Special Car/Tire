@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace CarManufacturer
+{
+    public class Tires
+    {
+        private int year;
+        private double pressure;
+        
+        public int Year { get; set; }
+
+        public double Pressure { get; set; }
+
+
+        public List<double> GetYearInfo(string[] splitted)
+        {
+            List<double> listYears = new List<double>();
+
+            for (int i = 0; i < splitted.Length; i += 2)
+            {
+                listYears.Add(int.Parse(splitted[i]));
+            }
+
+            return listYears;
+        }
+
+        public List<double> GetPressureInfo(string[] splitted)
+        {
+            List<double> listPressure = new List<double>();
+
+            for (int i = 1; i < splitted.Length; i += 2)
+            {
+                listPressure.Add(double.Parse(splitted[i]));
+            }
+
+            return listPressure;
+        }
+
+        public double GetSumPressure(List<List<double>> listTiresPressures,
+            int tiresIndex)
+        {
+            double sumPressure = listTiresPressures[tiresIndex].Sum();
+
+            return sumPressure;
+        }
+    }
+}/*
+2 2.6 3 1.6 2 3.6 3 1.6
+1 3.3 2 1.6 5 2.4 1 3.2
+No more tires
+331 2.2
+145 2.0
+Engines done
+Audi A5 2017 200 12 0 0
+BMW X5 2007 175 18 1 1
+Show special
+*/
