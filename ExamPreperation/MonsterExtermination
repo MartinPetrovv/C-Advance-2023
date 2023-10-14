@@ -1,0 +1,77 @@
+
+
+using Microsoft.VisualBasic;
+
+Queue<int> armorOfMonsters = new(Console.ReadLine()
+    .Split(",", StringSplitOptions.RemoveEmptyEntries)
+    .Select(int.Parse));
+
+Stack<int> strengthOfSoldiers = new(Console.ReadLine()
+    .Split(",", StringSplitOptions.RemoveEmptyEntries)
+    .Select(int.Parse));
+
+int totalKilledMonsters = 0;
+
+while (armorOfMonsters.Any() && strengthOfSoldiers.Any())
+{
+    int monsterDefence = armorOfMonsters.Peek();
+    int soliderAttack = strengthOfSoldiers.Peek();
+    
+    if (soliderAttack >= monsterDefence)
+    {
+        totalKilledMonsters++;
+        soliderAttack -= monsterDefence;
+        if (soliderAttack == 0)
+        {
+            armorOfMonsters.Dequeue();
+            strengthOfSoldiers.Pop();
+        }
+        else
+        {
+            armorOfMonsters.Dequeue();
+            if (strengthOfSoldiers.Count==1)
+            {
+                strengthOfSoldiers.Pop();
+                strengthOfSoldiers.Push(soliderAttack);
+                continue;
+            }
+            else
+            {
+                strengthOfSoldiers.Pop();
+                int tempStrike = soliderAttack;
+                strengthOfSoldiers.Push(strengthOfSoldiers.Pop() + tempStrike);
+            }
+        }
+       
+    }
+
+    else //if (soliderAttack<monsterDefence)
+    {
+        monsterDefence -= soliderAttack;
+        strengthOfSoldiers.Pop();
+        armorOfMonsters.Dequeue();
+        armorOfMonsters.Enqueue(monsterDefence);
+        
+    }
+    
+}
+if (!armorOfMonsters.Any())
+{
+    Console.WriteLine("All monsters have been killed!");
+}
+if (!strengthOfSoldiers.Any())
+{
+    Console.WriteLine("The soldier has been defeated.");
+}
+
+Console.WriteLine($"Total monsters killed: {totalKilledMonsters}");
+
+
+
+/*
+20,15,10
+15,10,25
+
+30,25,40,35
+15,20,10,30
+*/
