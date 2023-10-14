@@ -1,0 +1,39 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace averageStudentGrades
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            var students = new Dictionary<string, List<decimal>>();
+
+
+            for (int i = 0; i < n; i++)
+            {
+                string[] studentInfo = Console.ReadLine()
+                    .Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+                string name = studentInfo[0];
+                decimal grade = decimal.Parse(studentInfo[1]);
+
+                if (!students.ContainsKey(name))
+                {
+                    students.Add(name, new List<decimal>());
+                }
+                students[name].Add(grade);
+            }
+
+            foreach (var (studentName, studentGrades) in students)
+            {
+                var grades = string.Join(" ", studentGrades.Select(x => x.ToString("F2")));
+
+                Console.Write($"{studentName} -> {grades} (avg: {studentGrades.Average():f2})");
+                Console.WriteLine();
+            }
+        }
+    }
+}
