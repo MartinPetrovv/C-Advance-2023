@@ -1,0 +1,36 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace averageStudentGrades
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> input = Console.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
+            List<int> finalThree = new List<int>();
+
+            if (input.Count >= 3)
+            {
+                List<int> sorted = input.OrderByDescending(x => x).Take(3).ToList();
+                for (int i = 0; i < 3; i++)
+                {
+                    finalThree.Add(sorted[i]);
+                }
+            }
+            else
+            {
+                finalThree = input.OrderByDescending(x=>x).ToList();
+            }
+
+            foreach (var i in finalThree)
+            {
+                Console.Write(i + " ");
+            }
+        }
+    }
+}
