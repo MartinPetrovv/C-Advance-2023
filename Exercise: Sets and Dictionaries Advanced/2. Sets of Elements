@@ -1,0 +1,37 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        int[] lines = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries)
+            .Select(int.Parse)
+            .ToArray();
+
+        HashSet<int> firstSet = new HashSet<int>();
+        HashSet<int> secondSet = new HashSet<int>();
+        
+
+        for (int i = 0; i < lines[0]; i++)
+        {
+            int input = int.Parse(Console.ReadLine());
+            firstSet.Add(input);
+        }
+
+        for (int i = 0; i < lines[1]; i++)
+        {
+            int input = int.Parse(Console.ReadLine());
+            secondSet.Add(input);
+        }
+
+        var commonElements = firstSet.Intersect(secondSet);
+
+        foreach (var elements in commonElements)
+        {
+            Console.Write(elements + " ");
+        }
+
+    }
+}
