@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        string input = Console.ReadLine();
+
+        Dictionary<char, int> charCount = new Dictionary<char, int>();
+
+        foreach (var chars in input)
+        {
+            if (charCount.ContainsKey(chars))
+            {
+                charCount[chars]++;
+            }
+            else
+            {
+                charCount[chars] = 1;
+            }
+        }
+
+        var sorted = charCount.OrderBy(c => c.Key);
+
+        foreach (var kvp in sorted)
+        {
+            Console.WriteLine($"{kvp.Key}: {kvp.Value} time/s");
+        }
+
+
+
+
+
+
+
+
+
+    }
+}/*
+4
+Ce O
+Mo O Ce
+Ee
+Mo
+*/
