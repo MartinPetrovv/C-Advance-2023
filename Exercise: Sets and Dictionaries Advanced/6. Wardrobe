@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        int lines = int.Parse(Console.ReadLine());
+
+        Dictionary<string, Dictionary<string, int>> wardrobe = new Dictionary<string, Dictionary<string, int>>();
+
+        for (int i = 0; i < lines; i++)
+        {
+            string[] clothsLines = Console.ReadLine()
+                .Split(" -> ", StringSplitOptions.RemoveEmptyEntries)
+                .ToArray();
+            string color = clothsLines[0];
+            string[] cloths = clothsLines[1].Split(",");
+
+            if (wardrobe.ContainsKey(color) == false)
+            {
+                wardrobe.Add(color, new Dictionary<string, int>());
+            }
+
+            foreach (var itemsCloth in cloths)
+            {
+                if (wardrobe[color].ContainsKey(itemsCloth) == false)
+                {
+                    wardrobe[color].Add(itemsCloth, 0);
+                }
+
+                wardrobe[color][itemsCloth]++;
+            }
+        }
+
+        string[] wanted = Console.ReadLine().Split();
+        string colorNeeded = wanted[0];
+        string itemNeeded = wanted[1];
+
+        foreach (var color in wardrobe)
+        {
+            Console.WriteLine($"{color.Key} clothes:");
+
+            Dictionary<string, int> clothesLine = color.Value;
+
+            foreach (var item in clothesLine)
+            {
+                string output = $"* {item.Key} - {item.Value}";
+
+                if (colorNeeded == color.Key && itemNeeded == item.Key)
+                {
+                    output += " (found!)";
+                }
+
+                Console.WriteLine(output);
+
+
+
+
+
+            }
+        }
+    }
+}
+/*
+4
+Ce O
+Mo O Ce
+Ee
+Mo
+*/
