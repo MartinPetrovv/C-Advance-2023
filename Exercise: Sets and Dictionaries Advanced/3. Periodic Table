@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        int lines = int.Parse(Console.ReadLine());
+
+        HashSet<string> HashSet = new HashSet<string>();
+
+        for (int i = 0; i < lines; i++)
+        {
+            string[] input = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .ToArray();
+           
+            foreach (var elements in input)
+            {
+                HashSet.Add(elements);
+
+            }
+            
+        }
+
+        var sorted = HashSet.OrderBy(x => x);
+
+        foreach (var elements in sorted)
+        {
+            Console.Write(elements + " ");
+        }
+
+    }
+}/*
+4
+Ce O
+Mo O Ce
+Ee
+Mo
+*/
