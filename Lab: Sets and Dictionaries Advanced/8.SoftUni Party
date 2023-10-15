@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        var vipGuests = new HashSet<string>();
+        var regularGuests = new HashSet<string>();
+
+        string input;
+        while ((input = Console.ReadLine()) != "END")
+        {
+            if (input == "PARTY")
+            {
+                break;
+            }
+
+            if (char.IsDigit(input[0]))
+            {
+                vipGuests.Add(input);
+            }
+            else
+            {
+                regularGuests.Add(input);
+            }
+        }
+
+        while ((input = Console.ReadLine()) != "END")
+        {
+            if (vipGuests.Contains(input))
+            {
+                vipGuests.Remove(input);
+            }
+            else if (regularGuests.Contains(input))
+            {
+                regularGuests.Remove(input);
+            }
+        }
+
+        var notAttendedGuests = vipGuests.Concat(regularGuests).ToList();
+
+        Console.WriteLine(notAttendedGuests.Count);
+        foreach (var guest in vipGuests)
+        {
+            Console.WriteLine(guest);
+        }
+        foreach (var guest in regularGuests)
+        {
+            Console.WriteLine(guest);
+        }
+    }
+}
