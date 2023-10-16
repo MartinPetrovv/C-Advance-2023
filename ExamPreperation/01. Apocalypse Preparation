@@ -1,0 +1,89 @@
+
+Queue<int> textiles = new(Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse));
+Stack<int> medicaments = new(Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse));
+Dictionary<int, string> table = new Dictionary<int, string>()
+{
+    {30, "Patch"},
+    {40, "Bandage"},
+    {100, "MedKit"}
+};
+
+Dictionary<string, int> createdItems = new Dictionary<string, int>();
+
+
+while (textiles.Any() && medicaments.Any())
+{
+    int sum = medicaments.Peek() + textiles.Peek();
+    if (table.Any(x=>x.Key==sum))
+    {
+        if (!createdItems.Any(x => x.Key == table[sum]))
+        {
+            createdItems.Add(table[sum], 0);
+        }
+        createdItems[table[sum]]++;
+        textiles.Dequeue();
+        medicaments.Pop();
+    }
+    
+    else
+    {
+       if (sum > 100)
+       {
+           if (!createdItems.Any(x=>x.Key == "MedKit"))
+           {
+               createdItems.Add("MedKit", 0);
+           }
+
+           createdItems["MedKit"]++;
+           sum -= 100;
+           medicaments.Pop();
+           medicaments.Push(medicaments.Pop()+sum);
+           textiles.Dequeue();
+       }
+        else 
+        {
+           medicaments.Push((medicaments.Pop()+10));
+           textiles.Dequeue();
+        }
+    
+    }
+    
+}
+
+
+if (!textiles.Any() && !medicaments.Any())
+{
+    Console.WriteLine("Textiles and medicaments are both empty.");
+}
+else if (!textiles.Any())
+{
+    Console.WriteLine("Textiles are empty.");
+}
+else //(!medicaments.Any())
+{
+    Console.WriteLine("Medicaments are empty.");   
+}
+
+
+
+foreach (var createdItemsKey in createdItems.OrderByDescending(kvp => kvp.Value).ThenBy(kvp => kvp.Key))
+{
+    Console.WriteLine($"{createdItemsKey.Key} - {createdItemsKey.Value}");
+}
+
+if (medicaments.Any())
+{
+    Console.WriteLine($"Medicaments left: {string.Join(", ", medicaments)}");
+    
+}
+
+if (textiles.Any())
+{
+    Console.WriteLine($"Textiles left: {string.Join(", ", textiles)}");
+    
+}
+
+/*
+20 10 40 70 20
+50 10 30 20 80
+*/
