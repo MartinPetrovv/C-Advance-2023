@@ -12,6 +12,7 @@ namespace SoftUniKindergarten
             this.ParentName = parentName;
             this.ContactNumber = contactNumber;
         }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -26,7 +27,8 @@ namespace SoftUniKindergarten
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine($"Child: {this.FirstName} {this.LastName}, Age: {this.Age}, Contact info: {this.ParentName} - {this.ContactNumber}");
+            sb.AppendLine(
+                $"Child: {this.FirstName} {this.LastName}, Age: {this.Age}, Contact info: {this.ParentName} - {this.ContactNumber}");
 
             return sb.ToString().TrimEnd();
         }
