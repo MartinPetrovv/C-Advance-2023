@@ -1,0 +1,14 @@
+
+string inputLine = Console.ReadLine();
+
+int[] integers = inputLine.Split(", ")
+    .Select(int.Parse)
+    .Where(x => x % 2 == 0)
+    .OrderBy(x => x)
+    .ToArray();
+
+Console.WriteLine(string.Join(", ", integers));
+
+/*
+4, 2, 1, 3, 5, 7, 1, 4, 2, 12
+*/
