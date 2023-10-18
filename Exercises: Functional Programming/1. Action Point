@@ -1,0 +1,9 @@
+string input = Console.ReadLine();
+string[] names = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+Action<string> printName = name => Console.WriteLine(name);
+
+foreach (string name in names)
+{
+    printName(name);
+}
