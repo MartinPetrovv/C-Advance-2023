@@ -1,0 +1,13 @@
+
+string inputLine = Console.ReadLine();
+
+string[] words = inputLine.Split(' ');
+Func<string, bool> startsWithUppercase = s => !string.IsNullOrEmpty(s) && char.IsUpper(s[0]);
+
+foreach (string word in words)
+{
+    if (startsWithUppercase(word))
+    {
+        Console.WriteLine(word);
+    }
+}
