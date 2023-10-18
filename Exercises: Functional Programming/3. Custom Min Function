@@ -1,0 +1,12 @@
+string input = Console.ReadLine();
+string[] integerStrings = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+Func<string, int> parseToInt = int.Parse;
+
+int[] integers = integerStrings.Select(parseToInt).ToArray();
+
+Func<int, int, int> findSmallest = (a, b) => Math.Min(a, b);
+
+int smallestNumber = integers.Aggregate(int.MaxValue, findSmallest);
+
+Console.WriteLine(smallestNumber);
