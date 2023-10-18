@@ -1,0 +1,16 @@
+
+string inputLine = Console.ReadLine();
+
+int[] integers = inputLine.Split(", ")
+    .Select(int.Parse)
+    .ToArray();
+
+int count = integers.Length;
+int sum = integers.Sum();
+
+Console.WriteLine(count);
+Console.WriteLine(sum);
+
+/*
+4, 2, 1, 3, 5, 7, 1, 4, 2, 12
+*/
