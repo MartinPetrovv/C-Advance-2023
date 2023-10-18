@@ -1,0 +1,19 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        
+        string input = Console.ReadLine();
+        string[] names = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+        Action<string> addSirAndPrint = name => Console.WriteLine($"Sir {name}");
+
+        foreach (string name in names)
+        {
+            addSirAndPrint(name);
+        }
+    }
+}
