@@ -1,0 +1,18 @@
+
+string inputLine = Console.ReadLine();
+
+string[] priceStrings = inputLine.Split(", ");
+double vatRate = 0.20; // 20% VAT rate
+
+foreach (string priceString in priceStrings)
+{
+    if (double.TryParse(priceString, out double price))
+    {
+        double priceWithVat = price + (price * vatRate);
+        Console.WriteLine(priceWithVat.ToString("F2")); // Format with two decimal places
+    }
+    else
+    {
+        Console.WriteLine($"Invalid price: {priceString}");
+    }
+}
