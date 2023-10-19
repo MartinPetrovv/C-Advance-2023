@@ -1,0 +1,93 @@
+
+
+using System.Collections;
+using System.ComponentModel;
+using System.Xml.Serialization;
+
+Dictionary<string, int> peaks = new Dictionary<string, int>
+{
+    { "Vihren", 80 },
+    { "Kutelo", 90 },
+    { "Banski Suhodol", 100 },
+    { "Polezhan", 60 },
+    { "Kamenitza", 70}
+};
+
+
+Queue<string> conquered = new Queue<string>();
+
+
+Stack<int> portions = new(Console.ReadLine()
+    .Split(", ", StringSplitOptions.RemoveEmptyEntries).
+    Select(int.Parse));
+
+Queue<int> totalStamina = new(Console.ReadLine()
+    .Split(", ", StringSplitOptions.RemoveEmptyEntries).
+    Select(int.Parse));
+
+Queue<string> climpedPeaks = new Queue<string>();
+foreach (var climped in peaks)
+{
+    climpedPeaks.Enqueue(climped.Key);
+}
+
+
+while (portions.Any() && totalStamina.Any() && climpedPeaks.Any())
+{
+    if (portions.Peek() + totalStamina.Peek() >= peaks[climpedPeaks.Peek()])
+    {
+        conquered.Enqueue(climpedPeaks.Dequeue());
+        portions.Pop();
+        totalStamina.Dequeue();
+    }
+    else
+    {
+        portions.Pop();
+        totalStamina.Dequeue();
+
+    }
+    
+    
+}
+
+
+
+
+
+if (!climpedPeaks.Any())
+{
+    Console.WriteLine("Alex did it! He climbed all top five Pirin peaks in one week -> @FIVEinAWEEK");
+}
+else if (climpedPeaks.Any())
+{
+    Console.WriteLine("Alex failed! He has to organize his journey better next time -> @PIRINWINS");
+}
+
+if (conquered.Count >0)
+{
+    Console.WriteLine("Conquered peaks:");
+    foreach (var claimed in conquered)
+    {
+        Console.WriteLine(claimed);
+    }
+
+    Console.WriteLine();
+}
+
+
+/*
+40, 40, 40, 40, 40, 40, 40
+40, 50, 60, 20, 30, 5, 2
+
+
+We start by taking the last daily portion quantity (40) and the first stamina quantity (40). Their sum is 40 + 40 = 80. After that, we check if the sum is equal or greater than the first peak’s difficulty level. The sum of the food portion and the stamina for the day equals to the peak’s difficulty level, so the peak is conquered. We remove both quantities from the sequences.
+We contunue with the next peak, where we have also enough food and stamina to conquer it. After we conquer all five peaks, the program ends, and we print the final post on the Console. After that we print all conquered peaks, every peak on a new line. 
+
+
+We start by taking the last daily portion quantity (45) and the first stamina quantity (30). Their sum is 45 + 30 = 75. After that, we check if the sum is equal or greater than the first peak’s difficulty level. The sum is not enough for the peak to be conquered. Alex will have to sleep in the tent. We remove both quantities from the sequences.
+On the next day he will try the same peak once again, so he will need a sum of 80, from the food portion and the daily stamina. The sum is 10 + 28 = 40 and it is not enough. Alex will have to sleep in his tent once again. We remove both quantities from the sequences.
+He will not be able to climb any of the peaks, so we should print on the Console a message for an unsuccessful adventure. There won’t be any conquered peaks, so we will print only the status message on the Console.
+
+10, 20, 34, 26, 12, 10, 45
+30, 28, 17, 17, 13, 10, 10
+*/
