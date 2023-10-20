@@ -1,0 +1,200 @@
+
+using System.Collections;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Reflection.PortableExecutable;
+using System.Xml.Serialization;
+
+
+int size = int.Parse(Console.ReadLine());
+int submarineRow = 0;
+int submarineCol = 0;
+int mines = 3;
+int cruiser = 3;
+string[,] battlefield = new string[size, size];
+bool hasTrue=false;
+;
+
+for (int row = 0; row < size; row++)
+{
+    string input = Console.ReadLine();
+    for (int col = 0; col < size; col++)
+    {
+        battlefield[row, col] = input[col].ToString();
+        if (battlefield[row, col] == "S")
+        {
+            submarineRow= row;
+            submarineCol = col;
+            battlefield[row, col] = "-";
+        }
+    }
+}
+
+
+while (mines >0 & cruiser >0)
+{
+    string command = Console.ReadLine();
+
+    if (command=="up")
+    {
+        if (submarineRow > 0)
+        {
+            if (battlefield[submarineRow-1, submarineCol] == "-")
+            {
+                battlefield[submarineRow - 1, submarineCol] = "-";
+                
+            }
+            if (battlefield[submarineRow - 1, submarineCol] == "*")
+            {
+                mines-=1;
+                battlefield[submarineRow - 1, submarineCol] = "-";
+
+            }
+            if (battlefield[submarineRow - 1, submarineCol] == "C")
+            {
+                cruiser-=1;
+                battlefield[submarineRow - 1, submarineCol] = "-";
+            }
+
+            hasTrue = true;
+            submarineRow--;
+        }
+        
+    }
+    if (command == "down")
+    {
+        if (submarineRow < battlefield.GetLength(0) -1)
+        {
+            if (battlefield[submarineRow + 1, submarineCol] == "-")
+            {
+                battlefield[submarineRow+1, submarineCol] = "-";
+               
+            }
+            if (battlefield[submarineRow + 1, submarineCol] == "*")
+            {
+                mines -= 1;
+                battlefield[submarineRow + 1, submarineCol] = "-";
+
+            }
+            if (battlefield[submarineRow + 1, submarineCol] == "C")
+            {
+                cruiser -= 1;
+                battlefield[submarineRow + 1, submarineCol] = "-";
+            }
+            hasTrue = true;
+            submarineRow++;
+        }
+
+    }
+    if (command == "left")
+    {
+        if (submarineCol > 0)
+        {
+            if (battlefield[submarineRow, submarineCol-1] == "-")
+            {
+                battlefield[submarineRow, submarineCol - 1] = "-";
+               
+            }
+            if (battlefield[submarineRow, submarineCol-1] == "*")
+            {
+                mines -= 1;
+                battlefield[submarineRow, submarineCol-1] = "-";
+
+            }
+            if (battlefield[submarineRow, submarineCol-1] == "C")
+            {
+                cruiser -= 1;
+                battlefield[submarineRow, submarineCol-1] = "-";
+            }
+            hasTrue = true;
+            submarineCol--;
+        }
+
+    }
+    if (command == "right")
+    {
+        if (submarineCol < battlefield.GetLength(1)-1)
+        {
+            if (battlefield[submarineRow, submarineCol + 1] == "-")
+            {
+                battlefield[submarineRow, submarineCol + 1] = "-";
+                
+            }
+            if (battlefield[submarineRow, submarineCol + 1] == "*")
+            {
+                mines -= 1;
+                battlefield[submarineRow, submarineCol + 1] = "-";
+
+            }
+            if (battlefield[submarineRow, submarineCol + 1] == "C")
+            {
+                cruiser -= 1;
+                battlefield[submarineRow, submarineCol + 1] = "-";
+            }
+            hasTrue = true;
+            submarineCol++;
+        }
+
+    }
+    
+}
+
+if (hasTrue)
+{
+    battlefield[submarineRow, submarineCol] = "S";
+}
+
+if (mines ==0)
+{
+    Console.WriteLine($"Mission failed, U-9 disappeared! Last known coordinates [{submarineRow}, {submarineCol}]!");
+}
+else if (cruiser==0)    
+{
+    Console.WriteLine("Mission accomplished, U-9 has destroyed all battle cruisers of the enemy!");
+}
+
+for (int row = 0; row < battlefield.GetLength(0); row++)
+{
+    for (int col = 0; col < battlefield.GetLength(1); col++)
+    {
+        Console.Write(battlefield[row, col]);
+    }
+
+    Console.WriteLine();
+}
+
+
+
+/*
+5
+*--*-
+-S-*C
+-*---
+-----
+-C-*C
+right
+down
+left
+up
+right
+right
+right
+down
+down
+down
+up
+left
+left
+left
+down
+
+
+5
+*--*-
+-S-*C
+-*---
+-----
+-C-*C
+down
+
+*/
