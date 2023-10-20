@@ -9,15 +9,17 @@ namespace ShoeStore
 {
     public class ShoeStore
     {
-        public ShoeStore(string name, int storageCapacity, List<Shoe> shoes)
+        public ShoeStore(string name, int storageCapacity)
         {
             Name = name;
             StorageCapacity = storageCapacity;
             List<Shoe> Shoes = new List<Shoe>();
         }
 
-        private string Name { get; set; }
-        private int StorageCapacity { get; set; }
+         
+
+        public string Name { get; set; }
+        public int StorageCapacity { get; set; }
         public  List<Shoe> Shoes { get; set; }
         
         public int Count => Shoes.Count;
