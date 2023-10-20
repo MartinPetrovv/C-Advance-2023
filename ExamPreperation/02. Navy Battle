@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
@@ -12,8 +11,6 @@ int submarineCol = 0;
 int mines = 3;
 int cruiser = 3;
 string[,] battlefield = new string[size, size];
-bool hasTrue=false;
-;
 
 for (int row = 0; row < size; row++)
 {
@@ -23,53 +20,43 @@ for (int row = 0; row < size; row++)
         battlefield[row, col] = input[col].ToString();
         if (battlefield[row, col] == "S")
         {
-            submarineRow= row;
+            submarineRow = row;
             submarineCol = col;
             battlefield[row, col] = "-";
         }
     }
 }
 
-
-while (mines >0 & cruiser >0)
+while (mines > 0 & cruiser > 0)
 {
     string command = Console.ReadLine();
 
-    if (command=="up")
+    if (command == "up")
     {
         if (submarineRow > 0)
         {
-            if (battlefield[submarineRow-1, submarineCol] == "-")
-            {
-                battlefield[submarineRow - 1, submarineCol] = "-";
-                
-            }
+            
             if (battlefield[submarineRow - 1, submarineCol] == "*")
             {
-                mines-=1;
+                mines -= 1;
                 battlefield[submarineRow - 1, submarineCol] = "-";
 
             }
             if (battlefield[submarineRow - 1, submarineCol] == "C")
             {
-                cruiser-=1;
+                cruiser -= 1;
                 battlefield[submarineRow - 1, submarineCol] = "-";
             }
 
-            hasTrue = true;
             submarineRow--;
         }
-        
+
     }
     if (command == "down")
     {
-        if (submarineRow < battlefield.GetLength(0) -1)
+        if (submarineRow < battlefield.GetLength(0) - 1)
         {
-            if (battlefield[submarineRow + 1, submarineCol] == "-")
-            {
-                battlefield[submarineRow+1, submarineCol] = "-";
-               
-            }
+            
             if (battlefield[submarineRow + 1, submarineCol] == "*")
             {
                 mines -= 1;
@@ -81,7 +68,6 @@ while (mines >0 & cruiser >0)
                 cruiser -= 1;
                 battlefield[submarineRow + 1, submarineCol] = "-";
             }
-            hasTrue = true;
             submarineRow++;
         }
 
@@ -90,36 +76,27 @@ while (mines >0 & cruiser >0)
     {
         if (submarineCol > 0)
         {
-            if (battlefield[submarineRow, submarineCol-1] == "-")
-            {
-                battlefield[submarineRow, submarineCol - 1] = "-";
-               
-            }
-            if (battlefield[submarineRow, submarineCol-1] == "*")
+            
+            if (battlefield[submarineRow, submarineCol - 1] == "*")
             {
                 mines -= 1;
-                battlefield[submarineRow, submarineCol-1] = "-";
+                battlefield[submarineRow, submarineCol - 1] = "-";
 
             }
-            if (battlefield[submarineRow, submarineCol-1] == "C")
+            if (battlefield[submarineRow, submarineCol - 1] == "C")
             {
                 cruiser -= 1;
-                battlefield[submarineRow, submarineCol-1] = "-";
+                battlefield[submarineRow, submarineCol - 1] = "-";
             }
-            hasTrue = true;
             submarineCol--;
         }
 
     }
     if (command == "right")
     {
-        if (submarineCol < battlefield.GetLength(1)-1)
+        if (submarineCol < battlefield.GetLength(1) - 1)
         {
-            if (battlefield[submarineRow, submarineCol + 1] == "-")
-            {
-                battlefield[submarineRow, submarineCol + 1] = "-";
-                
-            }
+            
             if (battlefield[submarineRow, submarineCol + 1] == "*")
             {
                 mines -= 1;
@@ -131,24 +108,20 @@ while (mines >0 & cruiser >0)
                 cruiser -= 1;
                 battlefield[submarineRow, submarineCol + 1] = "-";
             }
-            hasTrue = true;
             submarineCol++;
         }
 
     }
-    
+
 }
 
-if (hasTrue)
-{
-    battlefield[submarineRow, submarineCol] = "S";
-}
+battlefield[submarineRow, submarineCol] = "S";
 
-if (mines ==0)
+if (mines == 0)
 {
     Console.WriteLine($"Mission failed, U-9 disappeared! Last known coordinates [{submarineRow}, {submarineCol}]!");
 }
-else if (cruiser==0)    
+else if (cruiser == 0)
 {
     Console.WriteLine("Mission accomplished, U-9 has destroyed all battle cruisers of the enemy!");
 }
@@ -164,37 +137,14 @@ for (int row = 0; row < battlefield.GetLength(0); row++)
 }
 
 
-
 /*
 5
 *--*-
 -S-*C
 -*---
 -----
--C-*C
-right
-down
-left
-up
-right
-right
-right
-down
-down
-down
-up
+*C-*C
 left
 left
 left
-down
-
-
-5
-*--*-
--S-*C
--*---
------
--C-*C
-down
-
-*/
+ */
