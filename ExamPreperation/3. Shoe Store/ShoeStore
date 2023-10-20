@@ -9,34 +9,37 @@ namespace ShoeStore
 {
     public class ShoeStore
     {
+        private List<Shoe> shoes;
         public ShoeStore(string name, int storageCapacity)
         {
             Name = name;
             StorageCapacity = storageCapacity;
-            List<Shoe> Shoes = new List<Shoe>();
+            this.shoes = new List<Shoe>();
         }
 
-         
+        IReadOnlyCollection<Shoe> Shoes => shoes;
+
 
         public string Name { get; set; }
         public int StorageCapacity { get; set; }
-        public  List<Shoe> Shoes { get; set; }
+        //public  List<Shoe> Shoes { get; set; }
         
         public int Count => Shoes.Count;
 
         public string AddShoe(Shoe shoe)
         {
-            if (StorageCapacity<Shoes.Count)
+            if (Shoes.Count >= StorageCapacity)
             {
-                Shoes.Add(shoe);
-                return $"Successfully added {shoe.Type} {shoe.Material} pair of shoes to the store.";
+                return "No more space in the storage room.";
             }
-            return "No more space in the storage room.";
+
+            shoes.Add(shoe);
+            return $"Successfully added {shoe.Type} {shoe.Material} pair of shoes to the store.";
         }
 
-        public int RemoveShoes(string material) => Shoes.RemoveAll(x=>x.Material == material);
+        public int RemoveShoes(string material) => shoes.RemoveAll(x=>x.Material == material);
 
-        public List<Shoe> GetShoesByType(string type) => Shoes.FindAll(x => x.Type == type.ToLower());
+        public List<Shoe> GetShoesByType(string type) => shoes.FindAll(x => x.Type == type.ToLower());
         //public List<Shoe> GetShoesByType(string type) => Shoes.FindAll(x => string.Equals(x.Type, type, StringComparison.OrdinalIgnoreCase));
 
         public Shoe GetShoeBySize(double size) => Shoes.FirstOrDefault(x => x.Size == size);
