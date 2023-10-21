@@ -1,0 +1,149 @@
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        int n = int.Parse(Console.ReadLine());
+        char[][] fishingArea = new char[n][];
+        int shipRow = -1;
+        int shipCol = -1;
+        int fishCaught = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            fishingArea[i] = Console.ReadLine().ToCharArray();
+            for (int j = 0; j < n; j++)
+            {
+                if (fishingArea[i][j] == 'S')
+                {
+                    shipRow = i;
+                    shipCol = j;
+                }
+            }
+        }
+
+        bool isSunk = false;
+        bool reachedQuota = false;
+
+        while (true)
+        {
+            string command = Console.ReadLine();
+            if (command == "collect the nets")
+            {
+                break;
+            }
+
+            int newRow = shipRow;
+            int newCol = shipCol;
+
+            if (command == "up")
+            {
+                newRow--;
+            }
+            else if (command == "down")
+            {
+                newRow++;
+            }
+            else if (command == "left")
+            {
+                newCol--;
+            }
+            else if (command == "right")
+            {
+                newCol++;
+            }
+
+            if (IsOutsideBoundary(newRow, newCol, n))
+            {
+                newRow = GetOppositeSide(newRow, n);
+                newCol = GetOppositeSide(newCol, n);
+            }
+
+            char newPosition = fishingArea[newRow][newCol];
+
+            if (newPosition == '-')
+            {
+                fishingArea[shipRow][shipCol] = '-';
+                fishingArea[newRow][newCol] = 'S';
+                shipRow = newRow;
+                shipCol = newCol;
+            }
+            else if (char.IsDigit(newPosition))
+            {
+                int fishQuantity = int.Parse(newPosition.ToString());
+                fishCaught += fishQuantity;
+                fishingArea[shipRow][shipCol] = '-';
+                fishingArea[newRow][newCol] = 'S';
+                shipRow = newRow;
+                shipCol = newCol;
+            }
+            else if (newPosition == 'W')
+            {
+                shipRow = newRow;
+                shipCol = newCol;
+                isSunk = true;
+                break;
+            }
+
+            if (fishCaught >= 20)
+            {
+                reachedQuota = true;
+                
+            }
+        }
+
+        if (isSunk)
+        {
+            Console.WriteLine($"You fell into a whirlpool! The ship sank and you lost the fish you caught. Last coordinates of the ship: [{shipRow},{shipCol}]");
+        }
+
+        // No "collect the nets" check here; it's included in the loop.
+        if (reachedQuota)
+        {
+            Console.WriteLine("Success! You managed to reach the quota!");
+        }
+        else if (fishCaught < 20 && !isSunk)
+        {
+            int lackOfFish = 20 - fishCaught;
+            Console.WriteLine($"You didn't catch enough fish and didn't reach the quota! You need {lackOfFish} tons of fish more.");
+        }
+        
+
+        if (fishCaught > 0 && !isSunk)
+        {
+            Console.WriteLine($"Amount of fish caught: {fishCaught} tons.");
+        }
+
+        if (!isSunk)
+        {
+            PrintFishingArea(fishingArea);
+        }
+    }
+
+    static bool IsOutsideBoundary(int row, int col, int n)
+    {
+        return row < 0 || row >= n || col < 0 || col >= n;
+    }
+
+    static int GetOppositeSide(int position, int n)
+    {
+        if (position < 0)
+        {
+            return n - 1;
+        }
+        if (position >= n)
+        {
+            return 0;
+        }
+        return position;
+    }
+
+    static void PrintFishingArea(char[][] fishingArea)
+    {
+        foreach (var row in fishingArea)
+        {
+            Console.WriteLine(new string(row));
+        }
+    }
+}
