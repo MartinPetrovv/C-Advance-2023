@@ -1,0 +1,61 @@
+using System.Threading.Channels;
+
+Stack<int> quantityFuel = new(Console.ReadLine()
+    .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+    .Select(int.Parse));
+
+Queue<int> consumptionFuel = new(Console.ReadLine()
+    .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+    .Select(int.Parse));
+
+Queue<int> neededAmountFuel = new(Console.ReadLine()
+    .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+    .Select(int.Parse));
+
+List<int> reachedAltitude = new List<int>();
+int n = 0;
+
+
+while (quantityFuel.Any() && consumptionFuel.Any() && neededAmountFuel.Any())
+{
+    
+    int quantity = quantityFuel.Peek();
+    int consumption = consumptionFuel.Peek();
+    int needed = neededAmountFuel.Peek();
+
+    if (quantity - consumption >= needed) // reached
+    {
+        n++;
+        reachedAltitude.Add(n);
+        quantityFuel.Pop();
+        consumptionFuel.Dequeue();
+        neededAmountFuel.Dequeue();
+        Console.WriteLine($"John has reached: Altitude {n}");
+    }
+    else if (quantity - consumption < needed || quantity-consumption != needed) //fails to reach
+    {
+        n++;
+        Console.WriteLine($"John did not reach: Altitude {n}");
+        quantityFuel.Pop();
+        consumptionFuel.Dequeue();
+        neededAmountFuel.Dequeue();
+        break;
+
+    }
+}
+
+if (reachedAltitude.Count >0 && reachedAltitude.Count <4)
+{
+    Console.WriteLine("John failed to reach the top.");
+    Console.WriteLine("Reached altitudes: " + string.Join(", ", reachedAltitude.Select(altitude => "Altitude " + altitude)));
+
+}
+else if (!reachedAltitude.Any())
+{
+    Console.WriteLine("John failed to reach the top.");
+    Console.WriteLine("John didn't reach any altitude.");
+}
+else if (reachedAltitude.Count==4)
+{
+    Console.WriteLine("John has reached all the altitudes and managed to reach the top!");
+}
